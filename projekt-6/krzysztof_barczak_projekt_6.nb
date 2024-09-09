@@ -1,0 +1,625 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     23569,        617]
+NotebookOptionsPosition[     22113,        584]
+NotebookOutlinePosition[     22536,        601]
+CellTagsIndexPosition[     22493,        598]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Krzysztof Barczak", "Author",
+ CellChangeTimes->{{3.909874378443609*^9, 3.909874389312582*^9}, {
+  3.9098744738117733`*^9, 
+  3.909874474894671*^9}},ExpressionUUID->"e2e9781a-1f5f-4c45-8e55-\
+8c18f7c153ba"],
+
+Cell[CellGroupData[{
+
+Cell["Zegar z budzikiem", "Title",
+ CellChangeTimes->{{3.90681550772218*^9, 3.906815509227519*^9}, {
+  3.906815546590526*^9, 3.9068155537402363`*^9}, {3.909874438109829*^9, 
+  3.909874440492557*^9}, {3.917273899402762*^9, 
+  3.917273901953973*^9}},ExpressionUUID->"c4d30fd3-fb8b-479f-ab2c-\
+8c528387f244"],
+
+Cell["Projekt 6", "Subtitle",
+ CellChangeTimes->{{3.90681566967318*^9, 3.906815671102539*^9}, {
+   3.909874443465263*^9, 3.909874446920268*^9}, 
+   3.916329059810265*^9},ExpressionUUID->"97aeefdf-4b6c-4c8c-969c-\
+daf62b2ce4b7"],
+
+Cell[CellGroupData[{
+
+Cell["Kod programu", "Section",
+ CellChangeTimes->{{3.9098744582429533`*^9, 
+  3.909874460818924*^9}},ExpressionUUID->"5d199fba-a569-440e-883c-\
+b449ca812544"],
+
+Cell["Procedura tworzy interfejs graficzny zegara.", "Text",
+ CellChangeTimes->{{3.917276616850334*^9, 3.917276629974976*^9}, 
+   3.917277348508156*^9},ExpressionUUID->"2cb3bb68-00ff-4f5b-b72a-\
+e1c792117690"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "clock", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"clock", "[", 
+   RowBox[{"hour_", ",", "minute_", ",", "second_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "f", ",", "wartosci", ",", "podzialkaGodziny", ",", "podzialkaMinuty", 
+      ",", "zegar", ",", "godzinyWskazowka", ",", "minutyWskazowka", ",", 
+      "sekundyWskazowka", ",", "godziny", ",", 
+      RowBox[{"h", "=", 
+       RowBox[{
+        RowBox[{"Mod", "[", 
+         RowBox[{"hour", ",", "12"}], "]"}], "*", 
+        RowBox[{"Pi", "/", "6"}]}]}], ",", 
+      RowBox[{"m", "=", 
+       RowBox[{
+        RowBox[{"Mod", "[", 
+         RowBox[{"minute", ",", "60"}], "]"}], "*", 
+        RowBox[{"Pi", "/", "30"}]}]}], ",", 
+      RowBox[{"s", "=", 
+       RowBox[{
+        RowBox[{"Mod", "[", 
+         RowBox[{
+          RowBox[{"Floor", "[", "second", "]"}], ",", "60"}], "]"}], "*", 
+        RowBox[{"Pi", "/", "30"}]}]}]}], "}"}], ",", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"wartosci", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{"t", ",", 
+        RowBox[{"{", 
+         RowBox[{"t", ",", 
+          RowBox[{"Pi", "/", "6"}], ",", 
+          RowBox[{"2", "Pi"}], ",", 
+          RowBox[{"Pi", "/", "6"}]}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"f", "[", "x_", "]"}], ":=", 
+      RowBox[{"Piecewise", "[", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"i", ",", 
+           RowBox[{"x", "==", 
+            RowBox[{"wartosci", "[", 
+             RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", "12"}], "}"}]}], "]"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"podzialkaGodziny", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{".9", 
+              RowBox[{"Cos", "[", 
+               RowBox[{"t", "-", 
+                RowBox[{"Pi", "/", "2"}]}], "]"}]}], ",", 
+             RowBox[{".9", 
+              RowBox[{"Sin", "[", 
+               RowBox[{
+                RowBox[{"-", "t"}], "+", 
+                RowBox[{"Pi", "/", "2"}]}], "]"}]}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Cos", "[", 
+              RowBox[{"t", "-", 
+               RowBox[{"Pi", "/", "2"}]}], "]"}], ",", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"-", "t"}], "+", 
+               RowBox[{"Pi", "/", "2"}]}], "]"}]}], "}"}]}], "}"}], "]"}], 
+        ",", 
+        RowBox[{"{", 
+         RowBox[{"t", ",", "0", ",", 
+          RowBox[{"2", "Pi"}], ",", 
+          RowBox[{"Pi", "/", "6"}]}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"podzialkaMinuty", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{".98", 
+              RowBox[{"Cos", "[", 
+               RowBox[{"t", "-", 
+                RowBox[{"Pi", "/", "2"}]}], "]"}]}], ",", 
+             RowBox[{".98", 
+              RowBox[{"Sin", "[", 
+               RowBox[{
+                RowBox[{"-", "t"}], "+", 
+                RowBox[{"Pi", "/", "2"}]}], "]"}]}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Cos", "[", 
+              RowBox[{"t", "-", 
+               RowBox[{"Pi", "/", "2"}]}], "]"}], ",", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"-", "t"}], "+", 
+               RowBox[{"Pi", "/", "2"}]}], "]"}]}], "}"}]}], "}"}], "]"}], 
+        ",", 
+        RowBox[{"{", 
+         RowBox[{"t", ",", "0", ",", 
+          RowBox[{"2", "Pi"}], ",", 
+          RowBox[{"Pi", "/", "30"}]}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"godziny", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"Text", "[", 
+         RowBox[{
+          RowBox[{"f", "[", "t", "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{".8", 
+             RowBox[{"Cos", "[", 
+              RowBox[{"t", "-", 
+               RowBox[{"Pi", "/", "2"}]}], "]"}]}], ",", 
+            RowBox[{".8", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"-", "t"}], "+", 
+               RowBox[{"Pi", "/", "2"}]}], "]"}]}]}], "}"}]}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"t", ",", 
+          RowBox[{"Pi", "/", "6"}], ",", 
+          RowBox[{"2", "Pi"}], ",", 
+          RowBox[{"Pi", "/", "6"}]}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"sekundyWskazowka", "=", 
+      RowBox[{"Line", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", "0"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{".9", 
+            RowBox[{"Cos", "[", 
+             RowBox[{"s", "-", 
+              RowBox[{"Pi", "/", "2"}]}], "]"}]}], ",", 
+           RowBox[{".9", 
+            RowBox[{"Sin", "[", 
+             RowBox[{
+              RowBox[{"-", "s"}], "+", 
+              RowBox[{"Pi", "/", "2"}]}], "]"}]}]}], "}"}]}], "}"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"minutyWskazowka", "=", 
+      RowBox[{"Arrow", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", "0"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{".7", 
+            RowBox[{"Cos", "[", 
+             RowBox[{"m", "-", 
+              RowBox[{"Pi", "/", "2"}]}], "]"}]}], ",", 
+           RowBox[{".7", 
+            RowBox[{"Sin", "[", 
+             RowBox[{
+              RowBox[{"-", "m"}], "+", 
+              RowBox[{"Pi", "/", "2"}]}], "]"}]}]}], "}"}]}], "}"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"godzinyWskazowka", "=", 
+      RowBox[{"Arrow", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", "0"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{".4", 
+            RowBox[{"Cos", "[", 
+             RowBox[{"h", "+", 
+              RowBox[{"m", "*", 
+               RowBox[{"Pi", "/", "60"}]}], "-", 
+              RowBox[{"Pi", "/", "2"}]}], "]"}]}], ",", 
+           RowBox[{".4", 
+            RowBox[{"Sin", "[", 
+             RowBox[{
+              RowBox[{"-", "h"}], "-", 
+              RowBox[{"m", "*", 
+               RowBox[{"Pi", "/", "60"}]}], "+", 
+              RowBox[{"Pi", "/", "2"}]}], "]"}]}]}], "}"}]}], "}"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"zegar", "=", 
+      RowBox[{"Graphics", "[", 
+       RowBox[{"{", 
+        RowBox[{
+        "godziny", ",", "podzialkaGodziny", ",", "podzialkaMinuty", ",", 
+         "Black", ",", 
+         RowBox[{"Circle", "[", "]"}], ",", "Black", ",", "godzinyWskazowka", 
+         ",", "Black", ",", "minutyWskazowka", ",", "Orange", ",", 
+         "sekundyWskazowka"}], "}"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Return", "[", "zegar", "]"}]}]}], "\[IndentingNewLine]", 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.917273927554008*^9, 3.917273928604047*^9}, {
+  3.917276561087326*^9, 3.917276567935204*^9}, {3.917277015796528*^9, 
+  3.9172770177804623`*^9}, {3.9172770792432547`*^9, 3.917277081204629*^9}, {
+  3.917277159755992*^9, 3.9172771647126513`*^9}, {3.9172772668498383`*^9, 
+  3.917277270184012*^9}},
+ CellLabel->
+  "In[237]:=",ExpressionUUID->"6503c166-5eab-4899-b592-a05801f4d1fa"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", 
+   RowBox[{"lata", ",", "miesiace", ",", "toNumber", ",", "day"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lata", "=", 
+   RowBox[{"{", 
+    RowBox[{"2024", ",", "2025", ",", "2026"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"miesiace", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<stycze\:0144\>\"", ",", " ", "\"\<luty\>\"", ",", "\"\<marzec\>\"", 
+     ",", "\"\<kwiecie\:0144\>\"", ",", "\"\<maj\>\"", ",", 
+     "\"\<czerwiec\>\"", ",", "\"\<lipiec\>\"", ",", "\"\<sierpie\:0144\>\"", 
+     ",", "\"\<wrzesie\:0144\>\"", ",", "\"\<pa\:017adziernik\>\"", ",", 
+     "\"\<listopad\>\"", ",", "\"\<grudzie\:0144\>\""}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"toNumber", "[", "month_", "]"}], ":=", 
+   RowBox[{"Piecewise", "[", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"i", ",", 
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", "12"}], "}"}]}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"day", "[", 
+   RowBox[{"month_", ",", "year_"}], "]"}], ":=", 
+  RowBox[{"Piecewise", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"31", ",", 
+       RowBox[{
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "1", "]"}], "]"}]}], "||", 
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "3", "]"}], "]"}]}], "||", 
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "5", "]"}], "]"}]}], "||", 
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "7", "]"}], "]"}]}], "||", 
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "8", "]"}], "]"}]}], "||", 
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "10", "]"}], "]"}]}], "||", 
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "12", "]"}], "]"}]}]}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"30", ",", 
+       RowBox[{
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "4", "]"}], "]"}]}], "||", 
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "6", "]"}], "]"}]}], "||", 
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "9", "]"}], "]"}]}], "||", 
+        RowBox[{"month", "==", 
+         RowBox[{"miesiace", "[", 
+          RowBox[{"[", "11", "]"}], "]"}]}]}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"LeapYearQ", "[", 
+          RowBox[{"DateObject", "[", 
+           RowBox[{"{", "year", "}"}], "]"}], "]"}], ",", "29", ",", "28"}], 
+        "]"}], ",", 
+       RowBox[{"month", "==", 
+        RowBox[{"miesiace", "[", 
+         RowBox[{"[", "2", "]"}], "]"}]}]}], "}"}]}], "}"}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.9172746321828127`*^9, 3.917274675204502*^9}, {
+   3.91727478796362*^9, 3.917274814641943*^9}, {3.917274865788587*^9, 
+   3.917274877622328*^9}, {3.917274983716152*^9, 3.917275022966475*^9}, {
+   3.917275109283181*^9, 3.9172752000665903`*^9}, {3.9172752460423927`*^9, 
+   3.9172753508126907`*^9}, {3.9172754141448298`*^9, 
+   3.9172754201396914`*^9}, {3.9172754842703953`*^9, 3.917275504925652*^9}, {
+   3.917276131199253*^9, 3.917276145082347*^9}, {3.917276197919627*^9, 
+   3.9172762539645853`*^9}, {3.917276290086968*^9, 3.917276314444767*^9}, {
+   3.9172764651098423`*^9, 3.917276480451672*^9}, 3.917276887090949*^9},
+ CellLabel->
+  "In[223]:=",ExpressionUUID->"c6a582dd-4057-4269-8329-4b92ea5dea34"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Testowanie", "Section",
+ CellChangeTimes->{{3.917274207928399*^9, 3.9172742095303717`*^9}, {
+  3.917276507977521*^9, 
+  3.917276509454125*^9}},ExpressionUUID->"38b1ba7f-66b7-4a0c-8727-\
+632998ad0268"],
+
+Cell["\<\
+Poni\:017cszy kod tworzy zegar wraz z budzikiem. Budzik dzia\[LSlash]a w taki \
+spos\[OAcute]b, \:017ce nale\:017cy okre\:015bli\[CAcute] dat\:0119 i godzin\
+\:0119, o kt\[OAcute]rej ma si\:0119 uruchomi\[CAcute]. W\[OAcute]wczas, je\
+\:015bli owa godzina wybije, to wybrzmiewa sygna\[LSlash] \
+d\:017awi\:0119kowy. Budzik zosta\[LSlash] stworzony z my\:015bl\:0105 o u\
+\:017cytkowniku i nie trzeba go wy\[LSlash]\:0105cza\[CAcute], gdy\:017c wy\
+\[LSlash]\:0105cza si\:0119 sam.\
+\>", "Text",
+ CellChangeTimes->{{3.91727666452162*^9, 
+  3.9172768030941973`*^9}},ExpressionUUID->"5aa0565e-9c49-4444-bed9-\
+eb62a00ccdfe"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Row", "[", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"Dynamic", "[", 
+     RowBox[{"Refresh", "[", 
+      RowBox[{
+       RowBox[{"clock", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"DateList", "[", 
+           RowBox[{"DateObject", "[", "]"}], "]"}], "[", 
+          RowBox[{"[", 
+           RowBox[{"-", "3"}], "]"}], "]"}], ",", 
+         RowBox[{
+          RowBox[{"DateList", "[", 
+           RowBox[{"DateObject", "[", "]"}], "]"}], "[", 
+          RowBox[{"[", 
+           RowBox[{"-", "2"}], "]"}], "]"}], ",", 
+         RowBox[{
+          RowBox[{"DateList", "[", 
+           RowBox[{"DateObject", "[", "]"}], "]"}], "[", 
+          RowBox[{"[", 
+           RowBox[{"-", "1"}], "]"}], "]"}]}], "]"}], ",", 
+       RowBox[{"UpdateInterval", "->", ".1"}]}], "]"}], "]"}], ",", 
+    RowBox[{"Manipulate", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"Refresh", "[", 
+             RowBox[{
+              RowBox[{"DateList", "[", "]"}], ",", 
+              RowBox[{"UpdateInterval", "->", "1"}]}], "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"1", ";;", "5"}], "]"}], "]"}], "==", 
+           RowBox[{"{", 
+            RowBox[{"rok", ",", 
+             RowBox[{"toNumber", "[", "miesi\:0105c", "]"}], ",", 
+             "dzie\:0144", ",", "godzina", ",", "minuta"}], "}"}]}], "&&", 
+          RowBox[{
+           RowBox[{"Floor", "[", 
+            RowBox[{
+             RowBox[{"Refresh", "[", 
+              RowBox[{
+               RowBox[{"DateList", "[", "]"}], ",", 
+               RowBox[{"UpdateInterval", "->", ".1"}]}], "]"}], "[", 
+             RowBox[{"[", 
+              RowBox[{"-", "1"}], "]"}], "]"}], "]"}], "==", "0"}]}], ",", 
+         RowBox[{"AudioPlay", "[", 
+          RowBox[{"Sound", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"SoundNote", "[", "\"\<G\>\"", "]"}], ",", 
+             RowBox[{"SoundNote", "[", "\"\<C\>\"", "]"}]}], "}"}], "]"}], 
+          "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Row", "[", 
+        RowBox[{"{", 
+         RowBox[{
+         "godzina", ",", "\"\<:\>\"", ",", "minuta", ",", "\"\<    \>\"", ",",
+           "dzie\:0144", ",", "\"\< / \>\"", ",", "miesi\:0105c", ",", 
+          "\"\< / \>\"", ",", "rok"}], "}"}], "]"}]}], ",", 
+      RowBox[{"{", 
+       RowBox[{"rok", ",", "lata"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"miesi\:0105c", ",", "miesiace"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"dzie\:0144", ",", "1", ",", 
+        RowBox[{"day", "[", 
+         RowBox[{"miesi\:0105c", ",", "rok"}], "]"}], ",", "1"}], "}"}], ",", 
+      
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"godzina", ",", "12"}], "}"}], ",", "0", ",", "23", ",", 
+        "1"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"minuta", ",", "0"}], "}"}], ",", "0", ",", "59", ",", "1"}],
+        "}"}]}], "]"}]}], "}"}], "]"}]], "Input",
+ CellChangeTimes->{{3.917274376828294*^9, 3.91727442332367*^9}, {
+  3.9172745513662977`*^9, 3.9172745802980223`*^9}, {3.9172746467715178`*^9, 
+  3.917274648013907*^9}, {3.917274822603795*^9, 3.917274823609955*^9}, {
+  3.91727489684363*^9, 3.917274901055417*^9}, {3.91727551402882*^9, 
+  3.917275558768289*^9}, {3.917275616986981*^9, 3.917275632910363*^9}, {
+  3.9172758550567017`*^9, 3.9172759356677103`*^9}, {3.917276343267702*^9, 
+  3.9172763458841677`*^9}},
+ CellLabel->
+  "In[231]:=",ExpressionUUID->"b05168d0-d09f-4808-9834-2c1f34e4c141"],
+
+Cell[BoxData[
+ TemplateBox[{
+   DynamicBox[
+    ToBoxes[
+     Refresh[
+      $CellContext`clock[
+       Part[
+        DateList[
+         DateObject[]], -3], 
+       Part[
+        DateList[
+         DateObject[]], -2], 
+       Part[
+        DateList[
+         DateObject[]], -1]], UpdateInterval -> 0.1], StandardForm], 
+    ImageSizeCache -> {311., {152., 159.}}], 
+   TagBox[
+    StyleBox[
+     DynamicModuleBox[{$CellContext`dzie\:0144$$ = 1, $CellContext`godzina$$ = 
+       12, $CellContext`miesi\:0105c$$ = 
+       "stycze\:0144", $CellContext`minuta$$ = 0, $CellContext`rok$$ = 2024, 
+       Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+       Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+       1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+          Hold[$CellContext`rok$$], {2024, 2025, 2026}}, {
+          Hold[$CellContext`miesi\:0105c$$], {
+          "stycze\:0144", "luty", "marzec", "kwiecie\:0144", "maj", 
+           "czerwiec", "lipiec", "sierpie\:0144", "wrzesie\:0144", 
+           "pa\:017adziernik", "listopad", "grudzie\:0144"}}, {
+          Hold[$CellContext`dzie\:0144$$], 1, 
+          Dynamic[
+           $CellContext`day[$CellContext`miesi\:0105c$$, $CellContext`rok$$]],
+           1}, {{
+           Hold[$CellContext`godzina$$], 12}, 0, 23, 1}, {{
+           Hold[$CellContext`minuta$$], 0}, 0, 59, 1}}, 
+       Typeset`size$$ = {256., {3.39625, 11.71625}}, Typeset`update$$ = 0, 
+       Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+      DynamicBox[
+       Manipulate`ManipulateBoxes[
+       1, StandardForm, 
+        "Variables" :> {$CellContext`dzie\:0144$$ = 1, $CellContext`godzina$$ = 
+          12, $CellContext`miesi\:0105c$$ = 
+          "stycze\:0144", $CellContext`minuta$$ = 0, $CellContext`rok$$ = 
+          2024}, "ControllerVariables" :> {}, 
+        "OtherVariables" :> {
+         Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+          Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+          Typeset`specs$$, Typeset`size$$, Typeset`update$$, 
+          Typeset`initDone$$, Typeset`skipInitDone$$}, "Body" :> (If[
+           And[Part[
+              Refresh[
+               DateList[], UpdateInterval -> 1], 
+              Span[1, 5]] == {$CellContext`rok$$, 
+              $CellContext`toNumber[$CellContext`miesi\:0105c$$], \
+$CellContext`dzie\:0144$$, $CellContext`godzina$$, $CellContext`minuta$$}, 
+            Floor[
+              Part[
+               Refresh[
+                DateList[], UpdateInterval -> 0.1], -1]] == 0], 
+           AudioPlay[
+            Sound[{
+              SoundNote["G"], 
+              SoundNote["C"]}]]]; 
+         Row[{$CellContext`godzina$$, ":", $CellContext`minuta$$, 
+            "    ", $CellContext`dzie\:0144$$, 
+            " / ", $CellContext`miesi\:0105c$$, " / ", $CellContext`rok$$}]), 
+        "Specifications" :> {{$CellContext`rok$$, {2024, 2025, 
+           2026}}, {$CellContext`miesi\:0105c$$, {
+           "stycze\:0144", "luty", "marzec", "kwiecie\:0144", "maj", 
+            "czerwiec", "lipiec", "sierpie\:0144", "wrzesie\:0144", 
+            "pa\:017adziernik", "listopad", 
+            "grudzie\:0144"}}, {$CellContext`dzie\:0144$$, 1, 
+           Dynamic[
+            $CellContext`day[$CellContext`miesi\:0105c$$, \
+$CellContext`rok$$]], 1}, {{$CellContext`godzina$$, 12}, 0, 23, 
+           1}, {{$CellContext`minuta$$, 0}, 0, 59, 1}}, "Options" :> {}, 
+        "DefaultOptions" :> {}], ImageSizeCache -> {342., {129., 137.}}, 
+       SingleEvaluation -> True], Deinitialization :> None, 
+      DynamicModuleValues :> {}, SynchronousInitialization -> True, 
+      UndoTrackedVariables :> {Typeset`show$$, Typeset`bookmarkMode$$}, 
+      UnsavedVariables :> {Typeset`initDone$$}, 
+      UntrackedVariables :> {Typeset`size$$}], "Manipulate", Deployed -> True,
+      StripOnInput -> False], 
+    Manipulate`InterpretManipulate[1]]},
+  "RowDefault"]], "Output",
+ CellChangeTimes->{3.917276694052167*^9, 3.917276894548891*^9, 
+  3.917277019809991*^9},
+ CellLabel->
+  "Out[231]=",ExpressionUUID->"df125c4c-f26b-4683-b346-27315ac54436"]
+}, Open  ]]
+}, Closed]]
+}, Open  ]]
+},
+WindowSize->{1920, 942},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+Magnification:>1.25 Inherited,
+FrontEndVersion->"13.3 for Mac OS X ARM (64-bit) (July 24, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"60b55b72-9605-46a3-96c5-cbd3f7c4ce1e"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 212, 4, 41, "Author",ExpressionUUID->"e2e9781a-1f5f-4c45-8e55-8c18f7c153ba"],
+Cell[CellGroupData[{
+Cell[795, 28, 305, 5, 123, "Title",ExpressionUUID->"c4d30fd3-fb8b-479f-ab2c-8c528387f244"],
+Cell[1103, 35, 227, 4, 67, "Subtitle",ExpressionUUID->"97aeefdf-4b6c-4c8c-969c-daf62b2ce4b7"],
+Cell[CellGroupData[{
+Cell[1355, 43, 159, 3, 84, "Section",ExpressionUUID->"5d199fba-a569-440e-883c-b449ca812544"],
+Cell[1517, 48, 209, 3, 44, "Text",ExpressionUUID->"2cb3bb68-00ff-4f5b-b72a-e1c792117690"],
+Cell[1729, 53, 7775, 215, 506, "Input",ExpressionUUID->"6503c166-5eab-4899-b592-a05801f4d1fa"],
+Cell[9507, 270, 3910, 101, 194, "Input",ExpressionUUID->"c6a582dd-4057-4269-8329-4b92ea5dea34"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[13454, 376, 206, 4, 65, "Section",ExpressionUUID->"38b1ba7f-66b7-4a0c-8727-632998ad0268"],
+Cell[13663, 382, 631, 11, 73, "Text",ExpressionUUID->"5aa0565e-9c49-4444-bed9-eb62a00ccdfe"],
+Cell[CellGroupData[{
+Cell[14319, 397, 3628, 92, 142, "Input",ExpressionUUID->"b05168d0-d09f-4808-9834-2c1f34e4c141"],
+Cell[17950, 491, 4123, 88, 334, "Output",ExpressionUUID->"df125c4c-f26b-4683-b346-27315ac54436"]
+}, Open  ]]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
